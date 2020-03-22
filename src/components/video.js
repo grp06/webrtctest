@@ -20,7 +20,7 @@ class Video extends React.Component {
   }
   videoCall = new VideoCall();
   componentDidMount() {
-    const socket = io(process.env.REACT_APP_SIGNALING_SERVER);
+    const socket = io('http://localhost:8080');
     const component = this;
     this.setState({ socket });
     const { roomId } = this.props.match.params;
