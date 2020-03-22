@@ -52,12 +52,12 @@ class Video extends React.Component {
       //   navigator.getUserMedia ||
       //   navigator.webkitGetUserMedia ||
       //   navigator.mozGetUserMedia;
-      navigator.getUserMedia = (
-          navigator.mediaDevices.getUserMedia() ||
-          navigator.webkitGetUserMedia ||
-          navigator.mozGetUserMedia ||
-          navigator.msGetUserMedia
-      );
+      // navigator.getUserMedia = (
+      //     navigator.mediaDevices.getUserMedia() ||
+      //     navigator.webkitGetUserMedia ||
+      //     navigator.mozGetUserMedia ||
+      //     navigator.msGetUserMedia
+      // );
 
       const op = {
         video: {
@@ -66,7 +66,7 @@ class Video extends React.Component {
         },
         audio: true
       };
-      navigator.getUserMedia(
+      navigator.mediaDevices.getUserMedia(
         op,
         stream => {
           this.setState({ streamUrl: stream, localStream: stream });
