@@ -47,6 +47,7 @@ class Video extends React.Component {
   }
   getUserMedia(cb) {
     return new Promise((resolve, reject) => {
+      console.log('navigator0000 = ', navigator)
       navigator.getUserMedia = navigator.getUserMedia =
         navigator.getUserMedia ||
         navigator.webkitGetUserMedia ||
