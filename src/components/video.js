@@ -58,6 +58,8 @@ class Video extends React.Component {
       //     navigator.msGetUserMedia
       // );
 
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
       const op = {
         video: {
           width: { min: 160, ideal: 640, max: 1280 },
@@ -66,16 +68,20 @@ class Video extends React.Component {
         audio: true
       };
       console.log('navigator11 = ', navigator)
-      navigator.getUserMedia(
-        op,
-        stream => {
-          console.log('navigator = ', navigator)
-          this.setState({ streamUrl: stream, localStream: stream });
-          this.localVideo.srcObject = stream;
-          resolve();
-        },
-        () => {}
-      );
+      if (navigator.getUserMedia) {
+        navigator.getUserMedia(
+          op,
+          stream => {
+            console.log('navigator = ', navigator)
+            this.setState({ streamUrl: stream, localStream: stream });
+            this.localVideo.srcObject = stream;
+            resolve();
+          },
+          () => {}
+        );
+      } else {
+        console.log("getUserMedia not supported");
+      }
     });
   }
   getDisplay() {
