@@ -20,7 +20,6 @@ class Video extends React.Component {
   }
   videoCall = new VideoCall();
   componentDidMount() {
-    console.log('process.env.REACT_APP_SIGNALING_SERVER = ', process.env.REACT_APP_SIGNALING_SERVER)
     const socket = io(process.env.REACT_APP_SIGNALING_SERVER);
     const component = this;
     this.setState({ socket });
@@ -48,16 +47,16 @@ class Video extends React.Component {
   }
   getUserMedia(cb) {
     return new Promise((resolve, reject) => {
-      // navigator.getUserMedia = navigator.getUserMedia =
-      //   navigator.getUserMedia ||
-      //   navigator.webkitGetUserMedia ||
-      //   navigator.mozGetUserMedia;
-      navigator.getUserMedia = (
-          navigator.getUserMedia ||
-          navigator.webkitGetUserMedia ||
-          navigator.mozGetUserMedia ||
-          navigator.msGetUserMedia
-      );
+      navigator.getUserMedia = navigator.getUserMedia =
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia;
+      // navigator.getUserMedia = (
+      //     navigator.getUserMedia ||
+      //     navigator.webkitGetUserMedia ||
+      //     navigator.mozGetUserMedia ||
+      //     navigator.msGetUserMedia
+      // );
 
       const op = {
         video: {
@@ -118,11 +117,7 @@ class Video extends React.Component {
   call = otherId => {
     this.videoCall.connect(otherId);
   };
-  renderFull = () => {
-    if (this.state.full) {
-      return 'The room is full';
-    }
-  };
+
   render() {
     return (
       <div className='video-wrapper'>
@@ -155,12 +150,7 @@ class Video extends React.Component {
             <p>Establishing connection...</p>
           </div>
         )}
-        {this.state.waiting && (
-          <div className='status'>
-            <p>Waiting for someone...</p>
-          </div>
-        )}
-        {this.renderFull()}
+
       </div>
     );
   }
