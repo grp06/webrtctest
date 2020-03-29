@@ -21,21 +21,32 @@ class Video extends React.Component {
   videoCall = new VideoCall();
   componentDidMount() {
     const socket = io(process.env.REACT_APP_SIGNALING_SERVER);
+    console.log('socket = ', socket)
     const component = this;
     this.setState({ socket });
     const { roomId } = this.props.match.params;
+    let newRoom
+
     this.getUserMedia().then(() => {
-      socket.emit('join', { roomId: roomId });
+      console.warn('gonna emit join roomId = ', roomId)
+      socket.emit('join', { roomId   });
     });
     socket.on('init', () => {
       component.setState({ initiator: true });
     });
     socket.on('ready', () => {
+      console.log('date.now= ', Date.now())
       component.enter(roomId);
     });
     socket.on('desc', data => {
-      if (data.type === 'offer' && component.state.initiator) return;
-      if (data.type === 'answer' && !component.state.initiator) return;
+      if (data.type === 'offer' && component.state.initiator) {
+        console.log("data - offer", data)
+        return
+      };
+      if (data.type === 'answer' && !component.state.initiator) {
+        console.log("data - answer ", data)
+        return
+      };
       component.call(data);
     });
     socket.on('disconnected', () => {
@@ -48,17 +59,6 @@ class Video extends React.Component {
   getUserMedia(cb) {
     return new Promise((resolve, reject) => {
       console.log('navigator0000 = ', navigator)
-      navigator.getUserMedia = navigator.getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia;
-      // navigator.getUserMedia = (
-      //     navigator.getUserMedia ||
-      //     navigator.webkitGetUserMedia ||
-      //     navigator.mozGetUserMedia ||
-      //     navigator.msGetUserMedia
-      // );
-
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
       const op = {
@@ -85,19 +85,7 @@ class Video extends React.Component {
       }
     });
   }
-  getDisplay() {
-    getDisplayStream().then(stream => {
-      stream.oninactive = () => {
-        this.state.peer.removeStream(this.state.localStream);
-        this.getUserMedia().then(() => {
-          this.state.peer.addStream(this.state.localStream);
-        });
-      };
-      this.setState({ streamUrl: stream, localStream: stream });
-      this.localVideo.srcObject = stream;
-      this.state.peer.addStream(stream);
-    });
-  }
+
   enter = roomId => {
     this.setState({ connecting: true });
     const peer = this.videoCall.init(
@@ -111,6 +99,7 @@ class Video extends React.Component {
         room: roomId,
         desc: data
       };
+      console.warn('signal = ', signal)
       this.state.socket.emit('signal', signal);
     });
     peer.on('stream', stream => {
@@ -144,14 +133,7 @@ class Video extends React.Component {
           id='remoteVideo'
           ref={video => (this.remoteVideo = video)}
         />
-        <button
-          className='share-screen-btn'
-          onClick={() => {
-            this.getDisplay();
-          }}
-        >
-          <ShareScreenIcon />
-        </button>
+
         {this.state.connecting && (
           <div className='status'>
             <p>Establishing connection...</p>

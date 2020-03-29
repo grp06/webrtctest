@@ -10,7 +10,6 @@
 }
 .video-wrapper {
   height: 100vh;
-  background: #252839;
   width: 100%;
 }
 #remoteVideo {
@@ -39,7 +38,6 @@
   border: none;
   box-shadow: 1px 1px 8px black;
   border-radius: 50%;
-  background-color: #252839;
   height: 64px;
   width: 64px;
 }
