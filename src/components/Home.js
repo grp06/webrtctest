@@ -102,6 +102,9 @@ class Home extends Component {
     this.state.socket.emit('join', {
       roomId: bigRandomNumber,
     })
+    this.setState({
+      waitingForPartner: true
+    })
   }
 
   submitMessage(e) {
