@@ -32,7 +32,8 @@ io.on('connection', function(socket) {
         socket.join(myRoom);
         io.to(myRoom).emit('welcomeMessage', {
           waitingForPartner: true,
-          roomId: myRoom
+          roomId: myRoom,
+          process: process.env.PORT
         })
       }
     }

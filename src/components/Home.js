@@ -11,7 +11,8 @@ class Home extends Component {
       roomId: '',
       allChatMessages: [],
       waitingForPartner: false,
-      personTyping: ''
+      personTyping: '',
+      process: ''
     }
   }
 
@@ -23,10 +24,11 @@ class Home extends Component {
       socket,
       savedUsername: username,
     })
-    socket.on('welcomeMessage', ({roomId, waitingForPartner}) => {
+    socket.on('welcomeMessage', ({roomId, waitingForPartner, process}) => {
       this.setState({
         roomId,
         waitingForPartner,
+        process,
       })
     })
 
@@ -189,6 +191,7 @@ class Home extends Component {
 
     return (
       <div className="container">
+        {this.state.process}
         <div id="roomId">{roomId}</div>
         {this.renderNeedsUsername()}
         {this.renderHasUsername(savedUsername)}
