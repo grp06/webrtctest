@@ -11,25 +11,23 @@ class Home extends Component {
       roomId: '',
       allChatMessages: [],
       waitingForPartner: false,
-      personTyping: '',
-      process: ''
+      personTyping: ''
     }
   }
 
   componentDidMount() {
-
-    const socket = io();
+    const socket = io('http://' + window.location.hostname + ':14261');
+    console.log(socket)
     const username = localStorage.getItem('username')
     console.log('username = ', username)
     this.setState({
       socket,
       savedUsername: username,
     })
-    socket.on('welcomeMessage', ({roomId, waitingForPartner, process}) => {
+    socket.on('welcomeMessage', ({roomId, waitingForPartner}) => {
       this.setState({
         roomId,
         waitingForPartner,
-        process,
       })
     })
 
@@ -192,7 +190,6 @@ class Home extends Component {
 
     return (
       <div className="container">
-        {this.state.process}
         <div id="roomId">{roomId}</div>
         {this.renderNeedsUsername()}
         {this.renderHasUsername(savedUsername)}

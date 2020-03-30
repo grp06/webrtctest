@@ -1,8 +1,9 @@
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+const PORT = process.env.PORT || 8080;
 
-server.listen(process.env.PORT);
+server.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 io.on('connection', function(socket) {
   socket.on('join', function (data) {
