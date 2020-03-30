@@ -16,7 +16,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    const socket = io(process.env.PORT);
+    const socket = io();
     const username = localStorage.getItem('username')
     console.log('username = ', username)
     this.setState({
