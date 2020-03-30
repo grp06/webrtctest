@@ -16,7 +16,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    const socket = io('http://' + window.location.hostname + ':14261');
+    const socket = io('https://' + window.location.hostname + ':14261');
     console.log(socket)
     const username = localStorage.getItem('username')
     console.log('username = ', username)
