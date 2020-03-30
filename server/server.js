@@ -32,8 +32,7 @@ io.on('connection', function(socket) {
         socket.join(myRoom);
         io.to(myRoom).emit('welcomeMessage', {
           waitingForPartner: true,
-          roomId: myRoom,
-          process: process.env.PORT
+          roomId: myRoom
         })
       }
     }
@@ -46,6 +45,38 @@ io.on('connection', function(socket) {
     socket.on('typing', function(data) {
       socket.broadcast.emit('typing', data)
     })
+
+    // if (sockets.length===1) {
+    //   console.log('length = 1')
+    //   socket.emit('init')
+    // } else{
+    //   if (sockets.length===2){
+    //     console.log("sockets length 2")
+    //     io.to(data.roomId).emit('ready')
+    //   } else {
+    //     console.log("sockets not 1 or 2 ... I guess we leave here and emit full?")
+    //     socket.room = null
+    //     socket.leave(data.roomId)
+    //     socket.emit('full')
+    //   }
+    // }
+  });
+
+
+
+  // const mySocketId = socket.id
+  // listOfSocketIds.push(mySocketId)
+
+
+
+
+  // socket.on('disconnect', function(){
+  //   const index = listOfSocketIds.indexOf(mySocketId);
+  //   if (index > -1) {
+  //     listOfSocketIds.splice(index, 1);
+  //   }
+  // });
+
 
 
 })
